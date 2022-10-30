@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
 });
 
 ```
-## Video Demonstration
-![]('./example/src/assets/sms-code.gif')
+## Demonstration
+<img src="./example/src/assets/sms-code.gif" width="200" height="350" />
 
 ## Extra Parameter
 codeLength() - The length of the code to be received. Default is 6.
