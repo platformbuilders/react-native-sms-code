@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
 ```
 
-[![react-native-sms-code]('./example/assets/sms-code.gif')]()
+![]('./example/assets/sms-code.gif')
 
 ## Extra Parameter
 codeLength() - The length of the code to be received. Default is 6.
