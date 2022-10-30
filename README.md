@@ -4,26 +4,67 @@ The purpose of this package is provide SMS verification codes on Android devices
 
 ```sh
 npm install react-native-sms-code
+yarn add react-native-sms-code
 ```
 
 ## Usage
 
 ```js
-import { multiply } from "react-native-sms-code";
+import {
+registerBroadcastReceiver,
+codeReceived,
+unregisterBroadcastReceiver,
+} from 'react-native-sms-code';
+
 
 // ...
+const [code, setCode] = React.useState('');
 
-const result = await multiply(3, 7);
+codeReceived().then((value) => {
+setCode(value);
+});
+
+React.useEffect(() => {
+  registerBroadcastReceiver();
+
+  return () => {
+    unregisterBroadcastReceiver();
+  };
+}, []);
+
+return (
+  <View style={styles.container}>
+  <Text>Code:</Text>
+  <TextInput
+          value={code}
+          onChangeText={setCode}
+          underlineColorAndroid="#3333"
+        />
+  </View>
+);
+
+const styles = StyleSheet.create({
+  container: {
+  flex: 1,
+  justifyContent: 'center',
+  padding: 8,
+  },
+  box: {
+  width: 60,
+  height: 60,
+  marginVertical: 20,
+  },
+  textInput: {
+  width: '100%',
+  },
+});
+
 ```
 
-## Contributing
-
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+## Extra Parameter
+codeLength() - The length of the code to be received. Default is 6.
+```js
 
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)

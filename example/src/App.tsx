@@ -1,18 +1,34 @@
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-sms-code';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
+import {
+  registerBroadcastReceiver,
+  codeReceived,
+  unregisterBroadcastReceiver,
+} from 'react-native-sms-code';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [code, setCode] = React.useState('');
+
+  codeReceived().then((value) => {
+    setCode(value);
+  });
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    registerBroadcastReceiver();
+
+    return () => {
+      unregisterBroadcastReceiver();
+    };
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>Code:</Text>
+      <TextInput
+        value={code}
+        onChangeText={setCode}
+        underlineColorAndroid="#3333"
+      />
     </View>
   );
 }
@@ -20,12 +36,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    padding: 8,
   },
   box: {
     width: 60,
     height: 60,
     marginVertical: 20,
+  },
+  textInput: {
+    width: '100%',
   },
 });
