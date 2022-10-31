@@ -1,6 +1,6 @@
 {
   "name": "react-native-sms-code",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Library to get android otp sms code",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
