@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 <img src="./example/src/assets/sms-code.gif" width="260" height="550" />
 
 ## Extra Parameter
-# codeLength()
+### codeLength()
 The length of the code to be received. Default is 6.
 ```js
 
