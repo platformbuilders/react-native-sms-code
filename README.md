@@ -36,10 +36,10 @@ return (
   <View style={styles.container}>
   <Text>Code:</Text>
   <TextInput
-          value={code}
-          onChangeText={setCode}
-          underlineColorAndroid="#3333"
-        />
+    value={code}
+    onChangeText={setCode}
+    underlineColorAndroid="#3333"
+  />
   </View>
 );
 
@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
 <img src="./example/src/assets/sms-code.gif" width="260" height="550" />
 
 ## Extra Parameter
-codeLength() - The length of the code to be received. Default is 6.
+# codeLength()
+The length of the code to be received. Default is 6.
 ```js
 
 ## License
