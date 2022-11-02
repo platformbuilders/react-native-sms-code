@@ -9,12 +9,19 @@ import {
 export default function App() {
   const [code, setCode] = React.useState('');
 
-  codeReceived().then((value) => {
-    setCode(value);
-  });
+  const handleCodeReceived = async () => {
+    try {
+      const otpCode = await codeReceived();
+      setCode(otpCode);
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
 
   React.useEffect(() => {
     registerBroadcastReceiver();
+
+    handleCodeReceived();
 
     return () => {
       unregisterBroadcastReceiver();

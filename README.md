@@ -21,25 +21,34 @@ unregisterBroadcastReceiver,
 const [code, setCode] = React.useState('');
 
 codeReceived().then((value) => {
-setCode(value);
+  setCode(value);
 });
+
+const handleCodeReceived = async () => {
+  const otpCode = await codeReceived();
+  setCode(otpCode);
+};
 
 React.useEffect(() => {
   registerBroadcastReceiver();
 
+  handleCodeReceived();
+
   return () => {
     unregisterBroadcastReceiver();
   };
+
 }, []);
+
 
 return (
   <View style={styles.container}>
-  <Text>Code:</Text>
-  <TextInput
-    value={code}
-    onChangeText={setCode}
-    underlineColorAndroid="#3333"
-  />
+    <Text>Code:</Text>
+    <TextInput
+      value={code}
+      onChangeText={setCode}
+      underlineColorAndroid="#3333"
+    />
   </View>
 );
 
