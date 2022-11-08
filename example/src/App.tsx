@@ -10,12 +10,8 @@ export default function App() {
   const [code, setCode] = React.useState('');
 
   const handleCodeReceived = async () => {
-    try {
-      const otpCode = await codeReceived();
-      setCode(otpCode);
-    } catch (e) {
-      console.log('error', e);
-    }
+    const otpCode = await codeReceived();
+    setCode(otpCode);
   };
 
   React.useEffect(() => {
