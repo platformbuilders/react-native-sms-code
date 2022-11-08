@@ -81,6 +81,7 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
 
     @ReactMethod
     public void registerBroadcastReceiver(){
+
         smsBroadcastReceiver = new SmsBroadcastReceiver();
 
         smsBroadcastReceiver.smsBroadCastReceiverListener = new SmsBroadcastReceiver.SmsBroadCastReceiverListener() {
@@ -113,15 +114,16 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
     }
 
     public String getOtpFromMessage(String message) {
-        Pattern otpPattern = Pattern.compile("(|^)\\d{" + this.codeLength + "}");
+        Pattern otpPattern = Pattern.compile("(|^)\\d{" + Integer.parseInt(this.codeLength) + "}");
         Matcher matcher = otpPattern.matcher(message);
+
         if (matcher.find()){
-            code = matcher.group(0);
+          code = matcher.group(0);
+          sendEvent(reactContext, "code", code);
+          Log.d(LOG, code);
+        } else {
+          sendEvent(reactContext, "code", "");
         }
-
-        Log.d(LOG, code);
-
-        sendEvent(reactContext, "code", code);
 
         return null;
     }
@@ -136,12 +138,12 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
 
     @Override
     public void onHostPause() {
-        unRegisterBroadcastService();
+        this.unRegisterBroadcastService();
     }
 
     @Override
     public void onHostDestroy() {
-        unRegisterBroadcastService();
+        this.unRegisterBroadcastService();
     }
 
     @Override
