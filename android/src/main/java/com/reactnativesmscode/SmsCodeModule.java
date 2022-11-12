@@ -36,6 +36,7 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
     final ReactApplicationContext reactContext = getReactApplicationContext();
 
     SmsBroadcastReceiver smsBroadcastReceiver;
+    IntentFilter intentFilter;
     String code;
     String codeLength = "6";
 
@@ -68,16 +69,15 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
 
 
     private void startSmartUserConsent(){
-        SmsRetrieverClient client = SmsRetriever.getClient(this.getReactApplicationContext());
+        SmsRetrieverClient client = SmsRetriever.getClient(reactContext.getCurrentActivity());
         client.startSmsUserConsent(null);
     }
 
     @ReactMethod
     public void registerBroadcastReceiver(){
-
-        IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
-
         startSmartUserConsent();
+
+        intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
 
         smsBroadcastReceiver = new SmsBroadcastReceiver();
 
@@ -92,7 +92,6 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
             public void onFailure() {
             }
         };
-
 
         reactContext.registerReceiver(smsBroadcastReceiver, intentFilter);
     }
@@ -127,6 +126,7 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
 
     @ReactMethod
     public void unRegisterBroadcastService(){
+
         reactContext.unregisterReceiver(smsBroadcastReceiver);
     }
 
@@ -134,10 +134,14 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
     public void onHostResume() {}
 
     @Override
-    public void onHostPause() {}
+    public void onHostPause() {
+      unRegisterBroadcastService();
+    }
 
     @Override
-    public void onHostDestroy() {}
+    public void onHostDestroy() {
+      unRegisterBroadcastService();
+    }
 
     @Override
     public void onNewIntent(Intent intent) {}
