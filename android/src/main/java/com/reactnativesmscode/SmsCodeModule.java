@@ -31,6 +31,7 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
     public static final String LOG = "Here";
     public static final String LOG_LISTENER = "Listener";
     public static final String LOG_BROADCAST_SUCCESS = "BroadcastReceiver Success";
+    public static final String LOG_NULL_BROADCAST_RECEIVER = " Null BroadcastReceiver";
     public static final int REQ_USER_CONSENT = 200;
 
     final ReactApplicationContext reactContext = getReactApplicationContext();
@@ -69,12 +70,13 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
 
 
     private void startSmartUserConsent(){
-        SmsRetrieverClient client = SmsRetriever.getClient(reactContext.getCurrentActivity());
+        SmsRetrieverClient client = SmsRetriever.getClient(this.getCurrentActivity());
         client.startSmsUserConsent(null);
     }
 
     @ReactMethod
     public void registerBroadcastReceiver(){
+
         startSmartUserConsent();
 
         intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
@@ -125,9 +127,12 @@ public class SmsCodeModule extends ReactContextBaseJavaModule implements Lifecyc
     }
 
     @ReactMethod
-    public void unRegisterBroadcastService(){
-
+    public void unRegisterBroadcastService() {
+      try{
         reactContext.unregisterReceiver(smsBroadcastReceiver);
+      } catch (Exception e){
+        Log.d(LOG, LOG_NULL_BROADCAST_RECEIVER);
+      }
     }
 
     @Override
